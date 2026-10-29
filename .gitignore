@@ -1,0 +1,36 @@
+# Environnements et caches Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Secrets et reglages locaux
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.vscode/
+.idea/
+
+# Corpus et resultats generes
+data/
+datasets/
+atelier_darija/
+artifacts/
+work/
+*.csv
+*.parquet
+*.arrow
+*.safetensors
+*.pt
+*.pth
+*.bin
+tokenizer_darija.json
+manifest.json
+
+# Systeme
+.DS_Store
+Thumbs.db
