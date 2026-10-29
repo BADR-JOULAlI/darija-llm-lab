@@ -1,4 +1,4 @@
-# Darija LLM from scratch
+# Darija GPT Lab
 
 Projet pédagogique pour construire un modèle de langage pour la darija marocaine, étape par étape, en suivant les concepts de [LLMs-from-scratch de Sebastian Raschka](https://github.com/rasbt/LLMs-from-scratch).
 
