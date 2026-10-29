@@ -1,6 +1,6 @@
 # Darija GPT Lab
 
-Construire un LLM from scratch pour la darija marocaine.
+Projet pédagogique en Python et PyTorch pour construire un LLM from scratch dédié à la darija marocaine : préparation des données AtlasIA, création d’un tokenizer BPE, implémentation de l’attention et des blocs Transformer, préentraînement à partir de poids aléatoires et évaluation de la génération de texte.
 
 La progression pédagogique suit les concepts de [LLMs-from-scratch de Sebastian Raschka](https://github.com/rasbt/LLMs-from-scratch).
 
