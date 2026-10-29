@@ -1,6 +1,8 @@
 # Darija GPT Lab
 
-Projet pédagogique pour construire un modèle de langage pour la darija marocaine, étape par étape, en suivant les concepts de [LLMs-from-scratch de Sebastian Raschka](https://github.com/rasbt/LLMs-from-scratch).
+Construire un GPT pour la darija marocaine : préparer les données, créer le tokenizer et entraîner le modèle à partir de zéro.
+
+La progression pédagogique suit les concepts de [LLMs-from-scratch de Sebastian Raschka](https://github.com/rasbt/LLMs-from-scratch).
 
 Les données proviennent des datasets publiés par [AtlasIA](https://huggingface.co/atlasia). Le vocabulaire et les fusions BPE sont appris sur notre corpus d'entraînement. Le projet n'utilise actuellement ni tokenizer préentraîné ni poids de modèle préentraîné.
 
