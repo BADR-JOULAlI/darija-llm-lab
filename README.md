@@ -1,6 +1,6 @@
 # Darija GPT Lab
 
-Construire un GPT pour la darija marocaine : préparer les données, créer le tokenizer et entraîner le modèle à partir de zéro.
+Construire un LLM from scratch pour la darija marocaine.
 
 La progression pédagogique suit les concepts de [LLMs-from-scratch de Sebastian Raschka](https://github.com/rasbt/LLMs-from-scratch).
 
