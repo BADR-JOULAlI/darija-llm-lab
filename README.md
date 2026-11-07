@@ -8,14 +8,20 @@ Les données proviennent des datasets publiés par [AtlasIA](https://huggingface
 
 ## État actuel
 
-Le chapitre 2 est en cours : tokenisation, normalisation Unicode, construction du vocabulaire, BPE et préparation des fenêtres glissantes. Le tokenizer est opérationnel et vérifié sur des exemples locaux. Le réseau GPT et son entraînement seront ajoutés au fil de l'étude des chapitres suivants.
+Le projet est organisé en **notebooks Jupyter autonomes**, avec des explications en français, du code cellule par cellule et des exercices corrigés. Les notebooks 01 à 03 étudient les données, le tokenizer et les fenêtres glissantes. Le notebook 04 commence le chapitre sur l'attention causale.
 
-## Contenu
+Les notebooks sont livrés **sans exécution ni sorties enregistrées**. Aucun téléchargement ni apprentissage n'est lancé lors de leur création. Le tokenizer sera effectivement appris et sauvegardé quand la cellule d'entraînement du notebook 02 sera exécutée.
 
-- `scripts/atelier_tokenizer.py` : tokenizer simple par mots, apprentissage BPE, sauvegarde et préparation des paires entrée/cible.
-- `docs/cours_creer_tokenizer_darija.pdf` : cours en français de 13 pages avec exemples et exercices corrigés.
-- `tests/test_tokenizer.py` : vérifications du décodage Unicode, des tokens spéciaux, de la sauvegarde et des fenêtres glissantes.
-- `requirements.txt` : version de la bibliothèque utilisée pour l'atelier.
+## Notebooks à suivre dans l'ordre
+
+| Notebook | Ce qu'on construit |
+| --- | --- |
+| [01 - Préparer les données darija](notebooks/01_preparer_donnees_darija.ipynb) | Lecture de la colonne `darija`, normalisation NFC, déduplication, échantillonnage et séparation entraînement/validation |
+| [02 - Créer notre tokenizer](notebooks/02_creer_tokenizer_darija.ipynb) | Tokenizer par mots, compréhension de BPE, apprentissage ByteLevel BPE, vérifications, mesures et sauvegarde |
+| [03 - Fenêtres glissantes](notebooks/03_fenetres_glissantes.ipynb) | Entrées/cibles décalées, longueur de contexte, stride, fin de document et petits lots |
+| [04 - Attention causale](notebooks/04_attention_causale.ipynb) | Requêtes, clés, valeurs, poids d'attention, masque causal et vecteurs de contexte avec de petits calculs Python |
+
+Le code utile est directement dans les notebooks ; aucun script Python externe au projet n'est nécessaire pour les suivre.
 
 ## Installation
 
@@ -27,35 +33,35 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 ```
 
-## Lancer l'atelier
+## Ouvrir le projet
 
 ```powershell
-python scripts/atelier_tokenizer.py --limit 1000 --vocab-size 2000
+python -m jupyterlab notebooks
 ```
 
-Lors de sa première exécution, le script télécharge le fichier public `atlasia_stories.csv` de [atlasia/darija_english](https://huggingface.co/datasets/atlasia/darija_english) et utilise uniquement sa colonne `darija`.
+Ouvre le notebook 01, sélectionne le noyau Python de l'environnement installé, puis avance cellule par cellule. Le même projet peut être ouvert dans VS Code avec la prise en charge Jupyter.
 
-Pour utiliser un CSV déjà téléchargé :
+## Données locales et résultats
 
-```powershell
-python scripts/atelier_tokenizer.py --csv data/atlasia_stories.csv --limit 1000
-```
+Pour commencer, le notebook 01 attend `data/raw/atlasia_stories.csv`, issu de [atlasia/darija_english](https://huggingface.co/datasets/atlasia/darija_english), et utilise uniquement sa colonne `darija`.
 
-Le script normalise en NFC, retire les doublons exacts, sépare les documents en entraînement et validation, puis apprend le tokenizer uniquement sur l'entraînement. Les documents apparentés demanderaient un regroupement supplémentaire pour une évaluation approfondie.
+Tu peux copier un CSV déjà téléchargé dans ce dossier. Le téléchargement intégré est **désactivé par défaut** ; il demande de passer explicitement `DOWNLOAD_DATA = True` dans le notebook 01. Les fichiers existants sont réutilisés.
 
-Les résultats sont écrits dans `atelier_darija/` :
+Les fichiers produits lors de l'exécution sont :
 
-- `tokenizer_darija.json` : vocabulaire, fusions et configuration du tokenizer ;
-- `manifest.json` : source du CSV, hash SHA-256, configuration et mesures sur la validation.
+- `data/processed/train.jsonl` et `validation.jsonl` : partitions par documents ;
+- `data/processed/corpus_manifest.json` : provenance, hashes et préparation du corpus ;
+- `artifacts/tokenizer/tokenizer_darija.json` : tokenizer appris dans le notebook 02 ;
+- `artifacts/tokenizer/training_manifest.json` et `evaluation.json` : paramètres d'apprentissage, provenance et mesures de validation.
 
-Les fichiers téléchargés et les résultats générés sont exclus de Git.
+Les dossiers `data/` et `artifacts/` sont exclus de Git. Les documents apparentés et les doublons proches demanderaient une analyse supplémentaire avant une évaluation approfondie.
 
 ## Recharger le tokenizer
 
 ```python
 from tokenizers import Tokenizer
 
-tokenizer = Tokenizer.from_file("atelier_darija/tokenizer_darija.json")
+tokenizer = Tokenizer.from_file("artifacts/tokenizer/tokenizer_darija.json")
 tokenizer.encode_special_tokens = True
 
 text = "salam, labas?"
@@ -66,26 +72,24 @@ print(tokenizer.decode(encoded.ids, skip_special_tokens=False))
 
 Avec Tokenizers 0.22.1, le drapeau `encode_special_tokens=True` doit être rétabli après rechargement. Il garde les chaînes littérales comme `[EOS]` dans le texte ordinaire. Le véritable marqueur de fin de document est ajouté explicitement par son identifiant.
 
-## Vérifications
+## Vérifications dans les notebooks
 
-```powershell
-python -m unittest discover -s tests -v
-```
+Les assertions sont placées à côté des notions étudiées : partitions sans doublons exacts communs, décodage après normalisation Unicode, chaînes spéciales littérales, stabilité après rechargement du JSON, décalage entrée/cible et frontières des documents. Les exemples numériques ou inventés sont identifiés comme pédagogiques.
 
-Les tests utilisent des exemples inventés, identifiés comme tels. Ils ne mesurent pas la qualité du tokenizer sur le corpus AtlasIA. Le téléchargement réseau du CSV est distinct de ces tests.
+Ces vérifications ne mesurent pas la qualité d'un futur LLM. La validation du tokenizer doit être faite sur les documents réservés, sans les utiliser pour apprendre le vocabulaire ou les fusions.
 
 ## Données et attribution
 
 Le dataset `atlasia/darija_english` affiche une licence **CC BY-NC 4.0** sur sa [page Hugging Face](https://huggingface.co/datasets/atlasia/darija_english). Les conditions et attributions des données restent applicables indépendamment du code. Les fichiers du corpus ne sont pas redistribués dans ce dépôt.
 
-[Atlaset](https://huggingface.co/datasets/atlasia/Atlaset) est une autre ressource possible pour la suite. Son accès nécessite d'accepter les conditions sur Hugging Face ; il n'est pas téléchargé par ce script.
+[Atlaset](https://huggingface.co/datasets/atlasia/Atlaset) est une autre ressource possible pour la suite. Son accès nécessite d'accepter les conditions sur Hugging Face ; les notebooks actuels utilisent le dataset public `darija_english`.
 
-Le cours et le code de cet atelier ont été préparés pour notre apprentissage. Le dépôt du livre reste la référence pour la progression pédagogique ; ses notebooks et ses poids ne sont pas copiés ici.
+Les explications et le code de ces notebooks ont été préparés pour notre apprentissage. Le dépôt du livre reste la référence pour la progression pédagogique ; ses notebooks et ses poids ne sont pas copiés ici.
 
 ## Progression prévue
 
 1. Préparer et inspecter un corpus darija.
 2. Construire le tokenizer et les fenêtres glissantes.
-3. Implémenter l'attention et les blocs Transformer.
+3. Comprendre l'attention causale, puis l'implémenter avec PyTorch et ajouter le multi-têtes.
 4. Assembler un petit GPT et apprendre ses paramètres à partir de zéro.
 5. Évaluer les générations, puis étudier l'adaptation aux instructions.
