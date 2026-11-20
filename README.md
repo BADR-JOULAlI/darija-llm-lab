@@ -8,7 +8,7 @@ Les données proviennent des datasets publiés par [AtlasIA](https://huggingface
 
 ## État actuel
 
-Le projet est organisé en **notebooks Jupyter autonomes**, avec des explications en français, du code cellule par cellule et des exercices corrigés. Les notebooks 01 à 03 étudient les données, le tokenizer et les fenêtres glissantes. Le notebook 04 commence le chapitre sur l'attention causale.
+Le projet est organisé en **notebooks Jupyter autonomes**, avec des explications en français, du code cellule par cellule et des exercices corrigés. Les notebooks 01 à 03 préparent les données, le tokenizer et les fenêtres glissantes. Le notebook 04 explique l'attention causale avec des calculs simples ; le notebook 05 l'implémente en PyTorch.
 
 Les notebooks sont livrés **sans exécution ni sorties enregistrées**. Aucun téléchargement ni apprentissage n'est lancé lors de leur création. Le tokenizer sera effectivement appris et sauvegardé quand la cellule d'entraînement du notebook 02 sera exécutée.
 
@@ -20,6 +20,7 @@ Les notebooks sont livrés **sans exécution ni sorties enregistrées**. Aucun t
 | [02 - Créer notre tokenizer](notebooks/02_creer_tokenizer_darija.ipynb) | Tokenizer par mots, compréhension de BPE, apprentissage ByteLevel BPE, vérifications, mesures et sauvegarde |
 | [03 - Fenêtres glissantes](notebooks/03_fenetres_glissantes.ipynb) | Entrées/cibles décalées, longueur de contexte, stride, fin de document et petits lots |
 | [04 - Attention causale](notebooks/04_attention_causale.ipynb) | Requêtes, clés, valeurs, poids d'attention, masque causal et vecteurs de contexte avec de petits calculs Python |
+| [05 - Attention causale en PyTorch](notebooks/05_attention_causale_pytorch.ipynb) | Projections apprenables Q/K/V, masque causal, batch et classe réutilisable |
 
 Le code utile est directement dans les notebooks ; aucun script Python externe au projet n'est nécessaire pour les suivre.
 
@@ -90,6 +91,6 @@ Les explications et le code de ces notebooks ont été préparés pour notre app
 
 1. Préparer et inspecter un corpus darija.
 2. Construire le tokenizer et les fenêtres glissantes.
-3. Comprendre l'attention causale, puis l'implémenter avec PyTorch et ajouter le multi-têtes.
+3. Implémenter l'attention causale en PyTorch, ajouter le multi-têtes et assembler le bloc Transformer.
 4. Assembler un petit GPT et apprendre ses paramètres à partir de zéro.
 5. Évaluer les générations, puis étudier l'adaptation aux instructions.
