@@ -1,32 +1,30 @@
 # Darija LLM Lab
 
-Projet pédagogique en Python et PyTorch pour construire un LLM from scratch dédié à la darija marocaine : préparation des données AtlasIA, création d’un tokenizer BPE, implémentation de l’attention et des blocs Transformer, préentraînement à partir de poids aléatoires et évaluation de la génération de texte.
+An educational Python and PyTorch project for building a Darija language model from scratch: preparing AtlasIA data, training a BPE tokenizer, implementing attention and Transformer blocks, pretraining from random weights, and evaluating text generation.
 
-La progression pédagogique suit les concepts de [LLMs-from-scratch de Sebastian Raschka](https://github.com/rasbt/LLMs-from-scratch).
+The learning sequence follows the concepts in [Sebastian Raschka's LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch). The project code and examples are original and adapted for Moroccan Darija.
 
-Les données proviennent des datasets publiés par [AtlasIA](https://huggingface.co/atlasia). Le vocabulaire et les fusions BPE sont appris sur notre corpus d'entraînement. Le projet n'utilise actuellement ni tokenizer préentraîné ni poids de modèle préentraîné.
+Data comes from datasets published by [AtlasIA](https://huggingface.co/atlasia). The vocabulary and BPE merges are learned from our training corpus. The project currently uses neither a pretrained tokenizer nor pretrained model weights.
 
-## État actuel
+## Current status
 
-Le projet est organisé en **notebooks Jupyter autonomes**, avec des explications en français, du code cellule par cellule et des exercices corrigés. Les notebooks 01 à 03 préparent les données, le tokenizer et les fenêtres glissantes. Le notebook 04 explique l'attention causale avec des calculs simples ; le notebook 05 l'implémente en PyTorch.
+The project is organized as **standalone Jupyter notebooks** with explanations and code cells. Notebooks 01–03 prepare the data, tokenizer, and sliding windows. Notebook 04 introduces causal attention with small calculations; notebook 05 implements it in PyTorch.
 
-Les notebooks sont livrés **sans exécution ni sorties enregistrées**. Aucun téléchargement ni apprentissage n'est lancé lors de leur création. Le tokenizer sera effectivement appris et sauvegardé quand la cellule d'entraînement du notebook 02 sera exécutée.
+The notebooks are delivered **without execution outputs**. Creating them does not download data or train a tokenizer. The tokenizer is trained and saved only when you run the training cell in notebook 02.
 
-## Notebooks à suivre dans l'ordre
+## Notebooks
 
-| Notebook | Ce qu'on construit |
+| Notebook | What it builds |
 | --- | --- |
-| [01 - Préparer les données darija](notebooks/01_preparer_donnees_darija.ipynb) | Lecture de la colonne `darija`, normalisation NFC, déduplication, échantillonnage et séparation entraînement/validation |
-| [02 - Créer notre tokenizer](notebooks/02_creer_tokenizer_darija.ipynb) | Tokenizer par mots, compréhension de BPE, apprentissage ByteLevel BPE, vérifications, mesures et sauvegarde |
-| [03 - Fenêtres glissantes](notebooks/03_fenetres_glissantes.ipynb) | Entrées/cibles décalées, longueur de contexte, stride, fin de document et petits lots |
-| [04 - Attention causale](notebooks/04_attention_causale.ipynb) | Requêtes, clés, valeurs, poids d'attention, masque causal et vecteurs de contexte avec de petits calculs Python |
-| [05 - Attention causale en PyTorch](notebooks/05_attention_causale_pytorch.ipynb) | Projections apprenables Q/K/V, masque causal, batch et classe réutilisable |
+| [01 - Prepare Darija data](notebooks/01_prepare_darija_data.ipynb) | Read the `darija` column, NFC normalization, deduplication, sampling, and train/validation splits |
+| [02 - Build our tokenizer](notebooks/02_build_darija_tokenizer.ipynb) | Word-tokenizer example, BPE concepts, ByteLevel BPE training, checks, measurements, and saving |
+| [03 - Sliding windows](notebooks/03_sliding_windows.ipynb) | Shifted inputs and targets, context length, stride, document boundaries, and batches |
+| [04 - Causal attention concepts](notebooks/04_causal_attention_concepts.ipynb) | Queries, keys, values, attention weights, causal masking, and context vectors with small Python calculations |
+| [05 - Causal attention in PyTorch](notebooks/05_causal_attention_pytorch.ipynb) | Trainable Q/K/V projections, causal masking, batches, and a reusable module |
 
-Le code utile est directement dans les notebooks ; aucun script Python externe au projet n'est nécessaire pour les suivre.
+## Install
 
-## Installation
-
-Python 3.10 ou plus récent est nécessaire. Depuis le dossier du dépôt :
+Python 3.10 or newer is required. From the repository directory:
 
 ```powershell
 python -m venv .venv
@@ -34,30 +32,30 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 ```
 
-## Ouvrir le projet
+## Open the project
 
 ```powershell
 python -m jupyterlab notebooks
 ```
 
-Ouvre le notebook 01, sélectionne le noyau Python de l'environnement installé, puis avance cellule par cellule. Le même projet peut être ouvert dans VS Code avec la prise en charge Jupyter.
+Open notebook 01, select the Python environment installed above, and run cells as needed. The project can also be opened in VS Code with Jupyter support.
 
-## Données locales et résultats
+## Local data and outputs
 
-Pour commencer, le notebook 01 attend `data/raw/atlasia_stories.csv`, issu de [atlasia/darija_english](https://huggingface.co/datasets/atlasia/darija_english), et utilise uniquement sa colonne `darija`.
+Notebook 01 expects `data/raw/atlasia_stories.csv` from [atlasia/darija_english](https://huggingface.co/datasets/atlasia/darija_english) and uses only its `darija` column.
 
-Tu peux copier un CSV déjà téléchargé dans ce dossier. Le téléchargement intégré est **désactivé par défaut** ; il demande de passer explicitement `DOWNLOAD_DATA = True` dans le notebook 01. Les fichiers existants sont réutilisés.
+You may copy an existing CSV into this directory. Downloading is **disabled by default**; set `DOWNLOAD_DATA = True` in notebook 01 to enable it. Existing files are reused.
 
-Les fichiers produits lors de l'exécution sont :
+Files produced when you run the notebooks:
 
-- `data/processed/train.jsonl` et `validation.jsonl` : partitions par documents ;
-- `data/processed/corpus_manifest.json` : provenance, hashes et préparation du corpus ;
-- `artifacts/tokenizer/tokenizer_darija.json` : tokenizer appris dans le notebook 02 ;
-- `artifacts/tokenizer/training_manifest.json` et `evaluation.json` : paramètres d'apprentissage, provenance et mesures de validation.
+- `data/processed/train.jsonl` and `validation.jsonl`: document splits;
+- `data/processed/corpus_manifest.json`: data provenance, hashes, and preprocessing settings;
+- `artifacts/tokenizer/tokenizer_darija.json`: tokenizer trained in notebook 02;
+- `artifacts/tokenizer/training_manifest.json` and `evaluation.json`: training settings, provenance, and validation measurements.
 
-Les dossiers `data/` et `artifacts/` sont exclus de Git. Les documents apparentés et les doublons proches demanderaient une analyse supplémentaire avant une évaluation approfondie.
+The `data/` and `artifacts/` directories are excluded from Git. Related documents and near-duplicates need further analysis before a rigorous evaluation.
 
-## Recharger le tokenizer
+## Reload the tokenizer
 
 ```python
 from tokenizers import Tokenizer
@@ -71,26 +69,26 @@ print(encoded.ids)
 print(tokenizer.decode(encoded.ids, skip_special_tokens=False))
 ```
 
-Avec Tokenizers 0.22.1, le drapeau `encode_special_tokens=True` doit être rétabli après rechargement. Il garde les chaînes littérales comme `[EOS]` dans le texte ordinaire. Le véritable marqueur de fin de document est ajouté explicitement par son identifiant.
+With Tokenizers 0.22.1, restore the `encode_special_tokens=True` flag after reloading. It keeps literal strings such as `[EOS]` as ordinary text. The real document-ending marker is added explicitly by its ID.
 
-## Vérifications dans les notebooks
+## Notebook checks
 
-Les assertions sont placées à côté des notions étudiées : partitions sans doublons exacts communs, décodage après normalisation Unicode, chaînes spéciales littérales, stabilité après rechargement du JSON, décalage entrée/cible et frontières des documents. Les exemples numériques ou inventés sont identifiés comme pédagogiques.
+Assertions are placed next to the concepts they check: splits have no exact duplicates in common, Unicode text round-trips after normalization, literal special-token strings are handled correctly, saved tokenizer IDs remain stable after reloading, targets are shifted by one token, and windows preserve document boundaries.
 
-Ces vérifications ne mesurent pas la qualité d'un futur LLM. La validation du tokenizer doit être faite sur les documents réservés, sans les utiliser pour apprendre le vocabulaire ou les fusions.
+These checks do not measure the quality of a future LLM. The tokenizer must be evaluated on reserved documents that were not used to learn its vocabulary or merges.
 
-## Données et attribution
+## Data and attribution
 
-Le dataset `atlasia/darija_english` affiche une licence **CC BY-NC 4.0** sur sa [page Hugging Face](https://huggingface.co/datasets/atlasia/darija_english). Les conditions et attributions des données restent applicables indépendamment du code. Les fichiers du corpus ne sont pas redistribués dans ce dépôt.
+The `atlasia/darija_english` dataset lists a **CC BY-NC 4.0** license on its [Hugging Face page](https://huggingface.co/datasets/atlasia/darija_english). The data's terms and attribution requirements apply independently of this code. Corpus files are not redistributed in this repository.
 
-[Atlaset](https://huggingface.co/datasets/atlasia/Atlaset) est une autre ressource possible pour la suite. Son accès nécessite d'accepter les conditions sur Hugging Face ; les notebooks actuels utilisent le dataset public `darija_english`.
+[Atlaset](https://huggingface.co/datasets/atlasia/Atlaset) is another possible resource. Access requires accepting its Hugging Face terms; the current notebooks use the public `darija_english` dataset.
 
-Les explications et le code de ces notebooks ont été préparés pour notre apprentissage. Le dépôt du livre reste la référence pour la progression pédagogique ; ses notebooks et ses poids ne sont pas copiés ici.
+The notebook explanations and code were prepared for this project. The book repository is a learning reference; its notebooks and weights are not copied here.
 
-## Progression prévue
+## Planned progression
 
-1. Préparer et inspecter un corpus darija.
-2. Construire le tokenizer et les fenêtres glissantes.
-3. Implémenter l'attention causale en PyTorch, ajouter le multi-têtes et assembler le bloc Transformer.
-4. Assembler un petit GPT et apprendre ses paramètres à partir de zéro.
-5. Évaluer les générations, puis étudier l'adaptation aux instructions.
+1. Prepare and inspect a Darija corpus.
+2. Build the tokenizer and sliding windows.
+3. Implement causal attention in PyTorch, add multi-head attention, and assemble the Transformer block.
+4. Assemble a small GPT and train its parameters from scratch.
+5. Evaluate generations, then study instruction adaptation.
