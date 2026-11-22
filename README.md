@@ -2,13 +2,13 @@
 
 An educational Python and PyTorch project for building a Darija language model from scratch: preparing AtlasIA data, training a BPE tokenizer, implementing attention and Transformer blocks, pretraining from random weights, and evaluating text generation.
 
-The learning sequence follows the concepts in [Sebastian Raschka's LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch). The project code and examples are original and adapted for Moroccan Darija.
+The notebooks build the project step by step, from Darija text preparation and tokenization to a Transformer language model. All project code and examples are written for Moroccan Darija.
 
 Data comes from datasets published by [AtlasIA](https://huggingface.co/atlasia). The vocabulary and BPE merges are learned from our training corpus. The project currently uses neither a pretrained tokenizer nor pretrained model weights.
 
 ## Current status
 
-The project is organized as **standalone Jupyter notebooks** with explanations and code cells. Notebooks 01–03 prepare the data, tokenizer, and sliding windows. Notebook 04 introduces causal attention with small calculations; notebook 05 implements it in PyTorch.
+The project is organized as **standalone Jupyter notebooks** with explanations and code cells. Notebooks 01–03 prepare the data, tokenizer, and sliding windows. Notebooks 04–06 introduce causal attention, implement it in PyTorch, and extend it to multiple attention heads. Notebook 07 assembles a Transformer block. Notebook 08 puts the components together into a GPT, trains it on the Darija corpus, and evaluates it on held-out data.
 
 The notebooks are delivered **without execution outputs**. Creating them does not download data or train a tokenizer. The tokenizer is trained and saved only when you run the training cell in notebook 02.
 
@@ -21,6 +21,9 @@ The notebooks are delivered **without execution outputs**. Creating them does no
 | [03 - Sliding windows](notebooks/03_sliding_windows.ipynb) | Shifted inputs and targets, context length, stride, document boundaries, and batches |
 | [04 - Causal attention concepts](notebooks/04_causal_attention_concepts.ipynb) | Queries, keys, values, attention weights, causal masking, and context vectors with small Python calculations |
 | [05 - Causal attention in PyTorch](notebooks/05_causal_attention_pytorch.ipynb) | Trainable Q/K/V projections, causal masking, batches, and a reusable module |
+| [06 - Multi-head attention](notebooks/06_multi_head_attention.ipynb) | Split Q/K/V into heads, compute masked attention in parallel, combine head outputs, and verify tensor shapes |
+| [07 - Transformer block](notebooks/07_transformer_block.ipynb) | Pre-normalization, residual connections, multi-head causal attention, and a GELU feed-forward network |
+| [08 - Train and evaluate a Darija GPT](notebooks/08_train_and_evaluate_darija_gpt.ipynb) | Token and position embeddings, class-based GPT model, document-safe batches, training loop, validation loss, perplexity, checkpointing, and text generation |
 
 ## Install
 
