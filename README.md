@@ -24,6 +24,7 @@ The notebooks are delivered **without execution outputs**. Creating them does no
 | [06 - Multi-head attention](notebooks/06_multi_head_attention.ipynb) | Split Q/K/V into heads, compute masked attention in parallel, combine head outputs, and verify tensor shapes |
 | [07 - Transformer block](notebooks/07_transformer_block.ipynb) | Pre-normalization, residual connections, multi-head causal attention, and a GELU feed-forward network |
 | [08 - Train and evaluate a Darija GPT](notebooks/08_train_and_evaluate_darija_gpt.ipynb) | Token and position embeddings, class-based GPT model, document-safe batches, training loop, validation loss, perplexity, checkpointing, and text generation |
+| [09 - Review model evaluation](notebooks/09_review_model_evaluation.ipynb) | Load saved metrics, inspect validation results and generated samples, and calculate simple n-gram diversity indicators |
 
 ## Install
 
