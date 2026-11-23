@@ -8,9 +8,9 @@ Data comes from datasets published by [AtlasIA](https://huggingface.co/atlasia).
 
 ## Current status
 
-The project is organized as **standalone Jupyter notebooks** with explanations and code cells. Notebooks 01–03 prepare the data, tokenizer, and sliding windows. Notebooks 04–06 introduce causal attention, implement it in PyTorch, and extend it to multiple attention heads. Notebook 07 assembles a Transformer block. Notebook 08 puts the components together into a GPT, trains it on the Darija corpus, and evaluates it on held-out data.
+The project is organized as **standalone Jupyter notebooks** with explanations and code cells. Notebooks 01–03 prepare the data, tokenizer, and sliding windows. Notebooks 04–06 introduce causal attention, implement it in PyTorch, and extend it to multiple attention heads. Notebook 07 assembles a Transformer block. Notebook 08 puts the components together into a GPT, trains it on the Darija corpus, and evaluates it on held-out data. Notebook 09 reviews the saved metrics and generated samples.
 
-The notebooks are delivered **without execution outputs**. Creating them does not download data or train a tokenizer. The tokenizer is trained and saved only when you run the training cell in notebook 02.
+All nine notebooks have been run from top to bottom in order, and their outputs are saved in the notebooks so results are visible on GitHub. Start with notebook 01: it downloads the pinned CSV if needed, notebook 02 trains the tokenizer, notebook 08 trains a small GPT, and notebook 09 reads its evaluation artifacts. The saved model, tokenizer, and dataset files remain local and are excluded from Git.
 
 ## Notebooks
 
@@ -42,13 +42,13 @@ python -m pip install -r requirements.txt
 python -m jupyterlab notebooks
 ```
 
-Open notebook 01, select the Python environment installed above, and run cells as needed. The project can also be opened in VS Code with Jupyter support.
+Open notebook 01, select the Python environment installed above, and use **Run All**. Continue with notebooks 02 through 09 in order; each notebook starts a fresh kernel, so run the preceding notebooks first to create its required files. Notebook 01 needs an internet connection the first time it downloads the pinned CSV. Notebook 08 performs a 200-step training run and can take longer on a CPU. The project can also be opened in VS Code with Jupyter support.
 
 ## Local data and outputs
 
-Notebook 01 expects `data/raw/atlasia_stories.csv` from [atlasia/darija_english](https://huggingface.co/datasets/atlasia/darija_english) and uses only its `darija` column.
+Notebook 01 uses only the `darija` column from [atlasia/darija_english](https://huggingface.co/datasets/atlasia/darija_english).
 
-You may copy an existing CSV into this directory. Downloading is **disabled by default**; set `DOWNLOAD_DATA = True` in notebook 01 to enable it. Existing files are reused.
+Notebook 01 downloads the pinned CSV into this directory when it is missing. You can also place a CSV here and set `DOWNLOAD_DATA = False` in the notebook. Existing files are reused.
 
 Files produced when you run the notebooks:
 
