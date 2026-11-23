@@ -8,9 +8,9 @@ Data comes from datasets published by [AtlasIA](https://huggingface.co/atlasia).
 
 ## Current status
 
-The project is organized as **standalone Jupyter notebooks** with explanations and code cells. Notebooks 01–03 prepare the data, tokenizer, and sliding windows. Notebooks 04–06 introduce causal attention, implement it in PyTorch, and extend it to multiple attention heads. Notebook 07 assembles a Transformer block. Notebook 08 puts the components together into a GPT, trains it on the Darija corpus, and evaluates it on held-out data. Notebook 09 reviews the saved metrics and generated samples. Notebook 10 resumes training from a checkpoint and compares validation results.
+The project is organized as **standalone Jupyter notebooks** with explanations and code cells. Notebooks 01–03 prepare the data, tokenizer, and sliding windows. Notebooks 04–06 introduce causal attention, implement it in PyTorch, and extend it to multiple attention heads. Notebook 07 assembles a Transformer block. Notebook 08 puts the components together into a GPT, trains it on the Darija corpus, and evaluates it on held-out data. Notebook 09 reviews the saved metrics and generated samples. Notebook 10 resumes training from a checkpoint and compares validation results. Notebook 11 tests a lower learning rate with cosine decay.
 
-All nine notebooks have been run from top to bottom in order, and their outputs are saved in the notebooks so results are visible on GitHub. Start with notebook 01: it downloads the pinned CSV if needed, notebook 02 trains the tokenizer, notebook 08 trains a small GPT, and notebook 09 reads its evaluation artifacts. The saved model, tokenizer, and dataset files remain local and are excluded from Git.
+All eleven notebooks have been run from top to bottom in order, and their outputs are saved in the notebooks so results are visible on GitHub. Start with notebook 01: it downloads the pinned CSV if needed, notebook 02 trains the tokenizer, notebook 08 trains a small GPT, notebook 09 reviews its evaluation artifacts, and notebooks 10–11 continue training from the saved checkpoint. The saved model, tokenizer, and dataset files remain local and are excluded from Git.
 
 ## Notebooks
 
@@ -26,6 +26,7 @@ All nine notebooks have been run from top to bottom in order, and their outputs 
 | [08 - Train and evaluate a Darija GPT](notebooks/08_train_and_evaluate_darija_gpt.ipynb) | Token and position embeddings, class-based GPT model, document-safe batches, training loop, validation loss, perplexity, checkpointing, and text generation |
 | [09 - Review model evaluation](notebooks/09_review_model_evaluation.ipynb) | Load saved metrics, inspect validation results and generated samples, and calculate simple n-gram diversity indicators |
 | [10 - Resume training and compare](notebooks/10_resume_training_and_compare.ipynb) | Restore model and optimizer states, continue training, compare held-out loss, and retain the better checkpoint |
+| [11 - Scheduled training experiment](notebooks/11_scheduled_training_experiment.ipynb) | Continue from the best checkpoint with cosine learning-rate decay and compare validation loss and a fixed generation |
 
 ## Install
 
@@ -43,7 +44,7 @@ python -m pip install -r requirements.txt
 python -m jupyterlab notebooks
 ```
 
-Open notebook 01, select the Python environment installed above, and use **Run All**. Continue with notebooks 02 through 10 in order; each notebook starts a fresh kernel, so run the preceding notebooks first to create its required files. Notebook 01 needs an internet connection the first time it downloads the pinned CSV. Notebook 08 trains for 200 steps and notebook 10 adds 100 steps; both can take longer on a CPU. The project can also be opened in VS Code with Jupyter support.
+Open notebook 01, select the Python environment installed above, and use **Run All**. Continue with notebooks 02 through 11 in order; each notebook starts a fresh kernel, so run the preceding notebooks first to create its required files. Notebook 01 needs an internet connection the first time it downloads the pinned CSV. Notebooks 08, 10, and 11 train the model and can take longer on a CPU. The project can also be opened in VS Code with Jupyter support.
 
 ## Local data and outputs
 
