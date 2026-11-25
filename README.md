@@ -6,6 +6,8 @@ The notebooks build the project step by step, from Darija text preparation and t
 
 Data comes from datasets published by [AtlasIA](https://huggingface.co/atlasia). The vocabulary and BPE merges are learned from our training corpus. The project currently uses neither a pretrained tokenizer nor pretrained model weights.
 
+See the [model card](MODEL_CARD.md) for the model's architecture, data, intended use, and limitations.
+
 ## Current status
 
 The project is organized as **standalone Jupyter notebooks** with explanations and code cells. Notebooks 01–03 prepare the data, tokenizer, and sliding windows. Notebooks 04–06 introduce causal attention, implement it in PyTorch, and extend it to multiple attention heads. Notebook 07 assembles a Transformer block. Notebook 08 puts the components together into a GPT, trains it on the Darija corpus, and evaluates it on held-out data. Notebook 09 reviews the saved metrics and generated samples. Notebook 10 resumes training from a checkpoint and compares validation results. Notebook 11 tests a lower learning rate with cosine decay.
@@ -42,6 +44,28 @@ The diagrams below are embedded in the relevant notebooks, beside a short explan
 | [07 - Transformer block](notebooks/07_transformer_block.ipynb) | Attention, residual connections, normalization, and the feed-forward network |
 | [08 - Darija GPT](notebooks/08_train_and_evaluate_darija_gpt.ipynb) | The model architecture and next-token training loop |
 | [10 - Checkpoints](notebooks/10_resume_training_and_compare.ipynb) | Monitoring, checkpointing, and resume flow |
+
+## Model architecture
+
+These three diagrams summarize the small decoder-only GPT and its main building blocks. They are explanatory figures; the model configuration used by the notebooks is **2 Transformer blocks, 4 attention heads, embedding width 64, context length 64, and a 2,000-token vocabulary**.
+
+### Darija GPT overview
+
+![Darija GPT architecture: token and position embeddings, Transformer blocks, and next-token output](assets/diagrams/08-darija-gpt-architecture.png)
+
+The model adds token and position embeddings, processes the sequence through causal Transformer blocks, then predicts a distribution over the next token.
+
+### Transformer decoder block
+
+![Transformer decoder block with causal attention, residual paths, normalization, and feed-forward network](assets/diagrams/07-transformer-block.png)
+
+Each block combines multi-head causal attention and a feed-forward network with residual connections and normalization.
+
+### Multi-head causal attention
+
+![Multi-head causal attention: several heads attend in parallel before their outputs are combined](assets/diagrams/06-multi-head-attention.png)
+
+The attention heads process separate learned feature subspaces in parallel; their outputs are combined to form one representation.
 
 ## Install
 
