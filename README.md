@@ -28,6 +28,21 @@ The notebooks are designed to run from top to bottom, with outputs saved so resu
 | [10 - Resume training and compare](notebooks/10_resume_training_and_compare.ipynb) | Restore model and optimizer states, continue training, compare held-out loss, and retain the better checkpoint |
 | [11 - Scheduled training experiment](notebooks/11_scheduled_training_experiment.ipynb) | Continue from the best checkpoint with cosine learning-rate decay and compare validation loss and a fixed generation |
 
+## Visual guides
+
+The diagrams below are embedded in the relevant notebooks, beside a short explanation of the concept. Some use toy tensors to make the flow easy to follow; they illustrate the idea rather than report live training measurements.
+
+| Notebook | Visual topic |
+| --- | --- |
+| [02 - Tokenizer](notebooks/02_build_darija_tokenizer.ipynb) | ByteLevel BPE learns frequent merges from training text |
+| [03 - Sliding windows](notebooks/03_sliding_windows.ipynb) | Inputs and next-token targets shift across windows |
+| [04 - Causal attention](notebooks/04_causal_attention_concepts.ipynb) | The mask blocks access to future tokens |
+| [05 - Attention in PyTorch](notebooks/05_causal_attention_pytorch.ipynb) | Tensor projections, masking, softmax, and context vectors |
+| [06 - Multi-head attention](notebooks/06_multi_head_attention.ipynb) | Independent heads are combined into one representation |
+| [07 - Transformer block](notebooks/07_transformer_block.ipynb) | Attention, residual connections, normalization, and the feed-forward network |
+| [08 - Darija GPT](notebooks/08_train_and_evaluate_darija_gpt.ipynb) | The model architecture and next-token training loop |
+| [10 - Checkpoints](notebooks/10_resume_training_and_compare.ipynb) | Monitoring, checkpointing, and resume flow |
+
 ## Install
 
 Python 3.10 or newer is required. From the repository directory:
